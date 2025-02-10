@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Result</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css"/>
+    <style>
+        /* Style for pie chart and bar chart */
+        .chart-container {
+            max-width: 1000px; /* Increase container size for pie and bar chart */
+            margin: 20px auto;
+            text-align: center;
+        }
+        #voteChartBar, #voteChartPie {
+            max-height: 600px; /* Increase height for better visibility */
+        }
+        body {
+            background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+            font-family: Arial, sans-serif;
+        }
+        .chart-container h2 {
+            font-weight: bold; /* Make chart titles bold */
+        }
+        .bar-labels {
+            font-weight: bold;
+            font-size: 16px;
+            text-align: center;
+        }
+        .display{
+            margin-top: 1000px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Voting Results</h1>
+    <div class="chart-container">
+    <h2>Vote Distribution (Pie Chart)</h2>
+    <canvas id="voteChartPie"></canvas>
+</div>
+<div class="chart-container">
+    <h2>Vote Distribution (Bar Chart)</h2>
+    <canvas id="voteChartBar"></canvas>
+</div>
+
+
+
+
+
+<table id="pizza_party" class="display" style="width:100%">
+    <thead>
+        <tr>
+           
+            <th>Vote Given to Party</th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+          
+            <th>Vote Given to Party</th>
+        </tr>
+    </tfoot>
+</table>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.2/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+
+<script>
+$(document).ready(function () {
+    // Initialize the DataTable
+    const table = new DataTable('#pizza_party', {
+        ajax: 'https://script.google.com/macros/s/AKfycbwxLk9uSvz-XUMuXrFOXfXFvKsQSFyDlNxBfCKIgIbzGfwQ-a3NKpIwGOA1_ZHfrPQA/exec',
+        columns: [
+          
+         
+            { data: 'vote-given-to-party' },
+        ],
+        initComplete: function () {
+            // Process data for the charts after table is loaded
+            processChartData(this.api().data());
+        }
+    });
+
+    // Function to process data and render charts
+    function processChartData(data) {
+        // Extract vote data and count occurrences
+        const voteCounts = {};
+        data.each(function (row) {
+            const party = row['vote-given-to-party'];
+            voteCounts[party] = (voteCounts[party] || 0) + 1;
+        });
+
+        // Prepare data for the charts
+        const labels = Object.keys(voteCounts);
+        const counts = Object.values(voteCounts);
+        const colors = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'];
+
+        // Render Pie Chart
+        const ctxPie = document.getElementById('voteChartPie').getContext('2d');
+        new Chart(ctxPie, {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Vote Distribution',
+                    data: counts,
+                    backgroundColor: colors,
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        enabled: false // Disable tooltip
+                    },
+                    datalabels: {
+                        formatter: (value, ctx) => {
+                            const label = ctx.chart.data.labels[ctx.dataIndex];
+                            return `${label}: ${value}`;
+                        },
+                        color: 'black',
+                        font: {
+                            weight: 'bold',
+                            size: 16
+                        }
+                    }
+                }
+            },
+            plugins: [ChartDataLabels] // Add datalabels plugin for pie chart
+        });
+
+        // Render Bar Chart
+        const ctxBar = document.getElementById('voteChartBar').getContext('2d');
+        new Chart(ctxBar, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Number of Votes',
+                    data: counts,
+                    backgroundColor: colors,
+                    borderColor: '#ccc',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false // Hide the legend for bar chart
+                    },
+                    tooltip: {
+                        enabled: false // Disable tooltip
+                    },
+                    datalabels: {
+                        formatter: (value, ctx) => {
+                            const label = ctx.chart.data.labels[ctx.dataIndex];
+                            return `${value}`;
+                        },
+                        anchor: 'end',
+                        align: 'top',
+                        color: 'black',
+                        font: {
+                            weight: 'bold',
+                            size: 16
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Party'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Number of Votes'
+                        }
+                    }
+                }
+            },
+            plugins: [ChartDataLabels] // Add datalabels plugin for bar chart
+        });
+
+        // Render labels below the bar chart in bold
+        const barLabelsDiv = document.getElementById('barChartLabels');
+        barLabelsDiv.innerHTML = labels.map(label => `<div class="bar-labels">${label}</div>`).join('');
+    }
+});
+</script>
+</body>
+</html>

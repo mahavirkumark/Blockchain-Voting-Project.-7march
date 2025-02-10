@@ -1,0 +1,35 @@
+<
+
+    <h2>Simple Calendar</h2>
+    <div class="calendar">
+        <div class="month" id="month-year"></div>
+        <div class="days" id="calendar-days"></div>
+    </div>
+
+    <script>
+        function generateCalendar() {
+            const date = new Date();
+            const monthYear = date.toLocaleString('default', { month: 'long', year: 'numeric' });
+            document.getElementById("month-year").textContent = monthYear;
+
+            const firstDay = new Date(date.getFullYear(), date.getMonth(), 1).getDay();
+            const lastDate = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+            
+            let calendarHTML = "";
+
+            for (let i = 0; i < firstDay; i++) {
+                calendarHTML += `<div></div>`; // Empty spaces for first row
+            }
+
+            for (let day = 1; day <= lastDate; day++) {
+                calendarHTML += `<div class="day">${day}</div>`;
+            }
+
+            document.getElementById("calendar-days").innerHTML = calendarHTML;
+        }
+
+        generateCalendar();
+    </script>
+
+</body>
+</html>

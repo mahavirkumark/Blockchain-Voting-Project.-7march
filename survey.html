@@ -1,0 +1,154 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Result</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css"/>
+    <style>
+        .chart-container {
+            max-width: 1000px;
+            margin: 20px auto;
+            text-align: center;
+        }
+        #voteChartBar, #voteChartPie {
+            max-height: 600px;
+        }
+        body {
+            background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+            font-family: Arial, sans-serif;
+        }
+        .chart-container h2 {
+            font-weight: bold;
+        }
+        .bar-labels {
+            font-weight: bold;
+            font-size: 16px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<h1>Voting Results</h1>
+
+<!-- Table -->
+<table id="candidate_reason_table" class="display" style="width:100%">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Reason for Selecting Candidate as a political leader</th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <th>Name</th>
+            <th>Reason for Selecting Candidate as a political leader</th>
+        </tr>
+    </tfoot>
+</table>
+
+<!-- Charts -->
+<div class="chart-container">
+    <h2>Vote Distribution (Pie Chart)</h2>
+    <canvas id="voteChartPie"></canvas>
+</div>
+<div class="chart-container">
+    <h2>Vote Distribution (Bar Chart)</h2>
+    <canvas id="voteChartBar"></canvas>
+</div>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+
+<script>
+$(document).ready(function () {
+    // Initialize the DataTable
+    const table = new DataTable('#candidate_reason_table', {
+        ajax: 'https://script.google.com/macros/s/AKfycby3QEnJ8OlfuvsSK1GT79CRJQK9bBFs8BNUgarWLkpWmBmiQC247oWoBTCbA8_OiT2bPg/exec',
+        columns: [
+            { data: 'name' }, // Key: 'name'
+            { data: 'reason' } // Key: 'reason'
+        ],
+        initComplete: function () {
+            processChartData(this.api().data());
+        }
+    });
+
+    // Function to process data and render charts
+    function processChartData(data) {
+        const reasonCounts = {};
+        data.each(function (row) {
+            const reason = row['reason'];
+            reasonCounts[reason] = (reasonCounts[reason] || 0) + 1;
+        });
+
+        const labels = Object.keys(reasonCounts);
+        const counts = Object.values(reasonCounts);
+        const colors = ['red', 'skyblue', 'lightgreen', 'orange', 'purple', 'yellow'];
+
+        // Pie Chart
+        const ctxPie = document.getElementById('voteChartPie').getContext('2d');
+        new Chart(ctxPie, {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: counts,
+                    backgroundColor: colors,
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'top' },
+                    datalabels: {
+                        formatter: (value, ctx) => `${ctx.chart.data.labels[ctx.dataIndex]}: ${value}`,
+                        color: '#fff',
+                        font: { weight: 'bold', size: 16 }
+                    }
+                }
+            },
+            plugins: [ChartDataLabels]
+        });
+
+        // Bar Chart
+        const ctxBar = document.getElementById('voteChartBar').getContext('2d');
+        new Chart(ctxBar, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: counts,
+                    backgroundColor: colors,
+                    borderColor: '#ccc',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    datalabels: {
+                        formatter: value => value,
+                        anchor: 'end',
+                        align: 'top',
+                        color: '#000',
+                        font: { weight: 'bold', size: 16 }
+                    }
+                },
+                scales: {
+                    x: { title: { display: true, text: 'Reasons' } },
+                    y: { beginAtZero: true, title: { display: true, text: 'Frequency' } }
+                }
+            },
+            plugins: [ChartDataLabels]
+        });
+    }
+});
+</script>
+</body>
+</html>

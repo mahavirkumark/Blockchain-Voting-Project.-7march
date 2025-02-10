@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register & Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="firebaseauth1.js"></script>
+        <script type="module" src="admin.js"></script>
+</head>
+<body>
+<style>
+        .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+ background-color:#121262 ;
+        position: relative;
+        height: 70px;
+    }
+
+
+    
+
+    
+    .nav-links {
+        list-style: none;
+        display: flex;
+        gap: 20px;
+    }
+    
+    .nav-links li {
+        display: inline;
+    }
+    
+    .nav-item {
+        text-decoration: none;
+        color: #ffffff;
+        font-weight: bold;
+        padding: 5px 10px;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+        font-size: larger;
+    }
+
+    .nav-item.active {
+        background-color: #006994; /* Active state */
+         align-items:center ;
+    }
+    ul li:hover a{
+        background-color: #006994; /* Active state */
+        align-items:center ;
+}
+    
+    .search-bar {
+        display: flex;
+        gap: 10px;
+    }
+    
+    .search-bar input {
+        padding: 5px;
+        border: none;
+        border-radius: 4px;
+    }
+    
+    .search-bar button {
+        padding: 5px 10px;
+        border: none;
+        background-color: #4682b4;
+        color: #ffffff;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    
+    .search-bar button:hover {
+        background-color: #315f72;
+    }
+    
+    .menu-toggle {
+        display: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: #ffffff;
+    }
+    
+    /* Content styles */
+    .content {
+        padding: 20px;
+    }
+       .logo{
+           text-decoration: none;
+            color: #ffffff;
+            font-weight: bold;  
+        }
+        .google-btn {
+      display: flex;
+      align-items: center;
+      padding: 10px 20px;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      background-color:#121262;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+      transition: all 0.3s ease;
+      margin-bottom:10px;
+      height:40px;
+      margin-top: 20px;
+    
+    }
+    .google-btn .google-logo {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(45deg, #4285F4, #34A853, #FBBC05, #EA4335);
+      border-radius: 50%;
+      color:blueviolet;
+      font-weight: bold;
+      margin-right: 15px;
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+    .google-btn img {
+      display: none;
+    }
+
+    .google-btn:hover {
+      background-color: burlywood;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .google-btn:hover .google-logo {
+      transform: scale(1.1);
+    }
+    </style>
+
+
+
+    <nav class="navbar">
+     
+    
+        <div class="logo">
+           <h1> <p>Blockchain Voting System</h1>
+           </div>
+
+        <ul class="nav-links">
+        
+        
+            <li><a href="index.html" class="nav-item" onclick="setActive(this)">Home</a></li>
+       
+    <li><a href="u.html" class="nav-item" onclick="setActive(this)">Result</a></li>
+            <li><a href="sign.html" class="nav-item" onclick="setActive(this)">Login</a></li>
+            <li><a href="j.html" class="nav-item" onclick="setActive(this)">Admin</a></li>
+        </ul>
+        <div class="search-bar">
+            <input type="text" placeholder="Type here..." id="search-input">
+         
+        </div>
+        <div class="menu-toggle" onclick="toggleMenu()">&#9776;</div>
+    </nav>
+ 
+    
+   
+   </div>
+    <div class="container" id="signup" style="display:none;">
+      <h1 class="form-title">Register</h1>
+      <form method="post" action="">
+        <div id="signUpMessage" class="messageDiv" style="display:none;"></div>
+        <div class="input-group">
+           <i class="fas fa-user"></i>
+           <input type="text"  id="fName" placeholder="First Name" required>
+           <label for="fname">First Name</label>
+        </div>
+        <div class="input-group">
+            <i class="fas fa-user"></i>
+            <input type="text"  id="lName" placeholder="Last Name" required>
+            <label for="lName">Last Name</label>
+        </div>
+          <div class="input-group">
+            <i class="fas fa-user"></i>
+            <input type="Number"  id="lName" placeholder="Last Name" required>
+            <label for="lName">Aadhar Number</label>
+        </div>
+       
+        <div class="input-group">
+            <i class="fas fa-envelope"></i>
+            <input type="email"  id="rEmail" placeholder="Email" required>
+            <label for="rEmail">Email</label>
+        </div>
+        <div class="input-group">
+            <i class="fas fa-lock"></i>
+            <input type="password" id="rPassword"  placeholder="Password" required>
+            <label for="rPassword">Password</label>
+        </div>
+       <button class="btn" id="submitSignUp" >Register</button>
+      </form>
+      <p class="or">
+        ----------or--------
+      </p>
+     
+      <div class="links">
+        <p>Already Have Account ?</p>
+        <button id="signInButton">Login</button>
+      </div>
+    </div>
+
+  <div class="container" id="signIn">
+        <h1 class="form-title">Login</h1>
+        <form method="post" action="">
+          <div id="signInMessage" class="messageDiv" style="display:none;"></div>
+
+          <div class="input-group">
+              <i class="fas fa-envelope"></i>
+              <input type="email"  id="email" placeholder="Email" required>
+              <label for="email">Email</label>
+          </div>
+          <div class="input-group">
+              <i class="fas fa-lock"></i>
+            <input type="password" id="password"  placeholder="Password" required>
+              <label for="password">Password</label>
+           
+    
+          </div>
+     
+  
+        
+         <button  class="btn"  id="submitSignIn">Sign In</button>
+       
+  <button class="google-btn" onclick="googleLogin()">
+    <div class="google-logo">G</div>
+    Login with Google
+  </button>
+        </form>
+        <p class="or">
+          ----------or--------
+
+      
+        <div class="links">
+          <p>Don't have account yet?</p>
+                  <button id="signUpButton">Register</button>
+        </div>
+      </div>
+      <script src="script.js"></script>
+     <script src="admin.js"></script>
+      <style> body{ background:linear-gradient(to right, #e2e2e2, #c9d6ff);
+}
+
+  .footer {
+            background-color:#315f72;
+            color: #fff;
+            padding: 20px;
+            margin-top:400px ;
+            font-size: 14px;
+     margin-left: 0px;
+            bottom: 0;
+            width: 1535px;
+        
+        }
+        .footer-content {
+            max-width: 2000px;
+          text-align: center;
+            margin-left: 0px;
+        }
+        .footer a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+          *{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"poppins",sans-serif;
+}
+body{
+    background-color: #c9d6ff;
+    background:linear-gradient(to right,#e2e2e2,#c9d6ff);
+    background-image: image.png;
+}
+.container{
+    background:#fff;
+    width:450px;
+    padding:1.5rem;
+    margin:50px auto;
+    border-radius:10px;
+    box-shadow:0 20px 35px rgba(0,0,1,0.9);
+}
+form{
+    margin:0 2rem;
+}
+.form-title{
+    font-size:1.5rem;
+    font-weight:bold;
+    text-align:center;
+    padding:1.3rem;
+    margin-bottom:0.4rem;
+}
+input{
+    color:inherit;
+    width:100%;
+    background-color:transparent;
+    border:none;
+    border-bottom:1px solid #757575;
+    padding-left:1.5rem;
+    font-size:15px;
+}
+.input-group{
+    padding:1% 0;
+    position:relative;
+
+}
+.input-group i{
+    position:absolute;
+    color:black;
+}
+input:focus{
+    background-color: transparent;
+    outline:transparent;
+    border-bottom:2px solid hsl(327,90%,28%);
+}
+input::placeholder{
+    color:transparent;
+}
+label{
+    color:#757575;
+    position:relative;
+    left:1.2em;
+    top:-1.3em;
+    cursor:auto;
+    transition:0.3s ease all;
+}
+input:focus~label,input:not(:placeholder-shown)~label{
+    top:-3em;
+    color:hsl(327,90%,28%);
+    font-size:15px;
+}
+.recover{
+    text-align:right;
+    font-size:1rem;
+    margin-bottom:1rem;
+
+}
+.recover a{
+    text-decoration:none;
+    color:rgb(125,125,235);
+}
+.recover a:hover{
+    color:blue;
+    text-decoration:underline;
+}
+button{
+    font-size:1.1rem;
+    padding:8px 0;
+    border-radius:5px;
+    outline:none;
+    border:none;
+    width:100%;
+    background:#121262;
+    color:white;
+    cursor:pointer;
+    transition:0.9s;
+}
+button:hover{
+    background:#07001f;
+}
+.or{
+    font-size:1.1rem;
+    margin-top:0.5rem;
+    text-align:center;
+}
+.icons{
+    text-align:center;
+}
+.icons i{
+    color:rgb(125,125,235);
+    padding:0.8rem 1.5rem;
+    border-radius:10px;
+    font-size:1.5rem;
+    cursor:pointer;
+    border:2px solid #dfe9f5;
+    margin:0 15px;
+    transition:1s;
+}
+.icons i:hover{
+    background:#07001f;
+    font-size:1.6rem;
+    border:2px solid rgb(125,125,235);
+}
+.links{
+    display:flex;
+    justify-content:space-around;
+    padding:0 4rem;
+    margin-top:0.9rem;
+    font-weight:bold;
+}
+ #signUpButton, #signInButton{
+    color:rgb(125,125,235);
+    border:none;
+    background-color:transparent;
+    font-size:1rem;
+    font-weight:bold;
+}
+#signUpButton:hover, #signInButton:hover {
+    text-decoration:underline;
+    color:blue;
+} 
+.messageDiv{
+    background-color:hsl(327,90%,28%);
+    color:white;
+    padding:10px 20px;
+    margin:10px;
+    border-radius: 5px;
+    font-size:1rem;
+    opacity:0;
+    animation:fadeOut 7s forwards;
+
+}
+  .footer {
+            background-color:black;
+            color: #fff;
+            padding: 20px;
+            
+            font-size: 14px;
+     margin-left: 0px;
+            bottom: 0;
+            width: 1535px;
+            margin-top: 50px;
+        
+        }
+        .footer-content {
+            max-width: 2000px;
+          text-align: center;
+            margin-left: 0px;
+        }
+        .footer a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        } 
+
+</style>
+ <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2024 Blockchain Voting System. All rights reserved.</p>
+            <div class="social-media">
+               
+            </div>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        }
+
+        function searchFunction() {
+            const query = document.getElementById('search-input').value;
+            alert("Search feature not implemented yet. Query: " + query);
+        }
+        </script>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+    import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyB78RTVCg0cmSPp7A1RJyyAgBuCeolO0cc",
+  authDomain: "sk12-58e9e.firebaseapp.com",
+  databaseURL: "https://sk12-58e9e-default-rtdb.firebaseio.com",
+  projectId: "sk12-58e9e",
+  storageBucket: "sk12-58e9e.firebasestorage.app",
+  messagingSenderId: "470207874652",
+  appId: "1:470207874652:web:67ba1cf3629b7e5b144899"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth();
+    const provider = new GoogleAuthProvider();
+
+
+
+// Delay function
+function delay(milliseconds) {
+    return new Promise(resolve => setTimeout(resolve, milliseconds));
+}
+
+window.googleLogin = () => {
+    signInWithPopup(auth, provider)
+        .then((result) => {
+            window.location.href = "homepage.html";
+        })
+        .catch(async (error) => {
+            await delay(6000); // Add a 3-second delay
+            console.error("Login Failed:", error);
+            alert("Login Failed!");
+        });
+};
+
+
+
+    </script>
+</body>
+</html> 

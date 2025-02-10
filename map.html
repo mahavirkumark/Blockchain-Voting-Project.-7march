@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Login with Firebase</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        .container {
+            width: 300px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        button {
+            background-color: #24292e;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin-top: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #444d56;
+        }
+        .hidden {
+            display: none;
+        }
+        img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>GitHub Login</h2>
+        <button id="github-login">Login with GitHub</button>
+        <div id="user-info" class="hidden">
+            <img id="user-pic" src="" alt="User Image">
+            <p id="user-name"></p>
+            <p id="user-email"></p>
+            <button id="logout">Logout</button>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
+
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyB78RTVCg0cmSPp7A1RJyyAgBuCeolO0cc",
+            authDomain: "sk12-58e9e.firebaseapp.com",
+            databaseURL: "https://sk12-58e9e-default-rtdb.firebaseio.com",
+            projectId: "sk12-58e9e",
+            storageBucket: "sk12-58e9e.appspot.com",
+            messagingSenderId: "470207874652",
+            appId: "1:470207874652:web:67ba1cf3629b7e5b144899"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        // GitHub Login
+        document.getElementById("github-login").addEventListener("click", () => {
+            const provider = new firebase.auth.GithubAuthProvider();
+
+            auth.signInWithPopup(provider)
+                .then((result) => {
+                    const user = result.user;
+
+                    if (user) {
+                        document.getElementById("user-pic").src = user.photoURL || "https://via.placeholder.com/50";
+                        document.getElementById("user-name").textContent = `Name: ${user.displayName || "No Name"}`;
+                        document.getElementById("user-email").textContent = `Email: ${user.email || "No Email"}`;
+                        document.getElementById("user-info").classList.remove("hidden");
+                        document.getElementById("github-login").classList.add("hidden");
+                    }
+                })
+                .catch((error) => {
+                    console.error("Login Error:", error.message);
+                    alert(`Error: ${error.message}`);
+                });
+        });
+
+        // Logout
+        document.getElementById("logout").addEventListener("click", () => {
+            auth.signOut().then(() => {
+                document.getElementById("user-info").classList.add("hidden");
+                document.getElementById("github-login").classList.remove("hidden");
+            }).catch((error) => {
+                console.error("Logout Error:", error);
+                alert(`Logout Error: ${error.message}`);
+            });
+        });
+    </script>
+</body>
+</html>

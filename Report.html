@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css"/>
+    <style>
+        /* Style for pie chart and bar chart */
+        .chart-container {
+            max-width: 1000px; /* Increase container size */
+            margin: 20px auto;
+            text-align: center;
+        }
+        #voteChartBar, #voteChartPie {
+            max-height: 600px; /* Increase height for better visibility */
+        }
+        body {
+            background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+            font-family: Arial, sans-serif;
+        }
+        .chart-container h2 {
+            font-weight: bold;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<h1>Report</h1>
+
+<!-- Table -->
+<table id="result_table" class="display" style="width:100%">
+    <thead>
+        <tr>
+            <th>Name</th>
+ 
+            <th>Reason for Candidate</th>
+            <th>Web Experience</th>
+            <th>Suggestions</th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <th>Name</th>
+         
+            <th>Reason for Candidate</th>
+            <th>Web Experience</th>
+            <th>Suggestions</th>
+        </tr>
+    </tfoot>
+</table>
+
+<!-- Charts -->
+<div class="chart-container">
+    <h2>Web Experience Distribution (Pie Chart)</h2>
+    <canvas id="voteChartPie"></canvas>
+</div>
+<div class="chart-container">
+    <h2>Web Experience Distribution (Bar Chart)</h2>
+    <canvas id="voteChartBar"></canvas>
+</div>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+
+<script>
+$(document).ready(function () {
+    // Initialize the DataTable
+    const table = new DataTable('#result_table', {
+        ajax: 'https://script.google.com/macros/s/AKfycbx9jAwFYhXfGC6WnpnHrEJuGQEMaGkcHLokAEg5TjE2P08AnR68SYbvTzUbACA7cg5d/exec',
+        columns: [
+            { data: 'Name' },
+          
+            { data: 'Reason for Candidate' },
+            { data: 'Web Experience' },
+            { data: 'Suggestions' }
+        ],
+        initComplete: function () {
+            processChartData(this.api().data());
+        }
+    });
+
+    // Function to process data and render charts
+    function processChartData(data) {
+        // Extract 'Web Experience' data and count occurrences
+        const experienceCounts = {};
+        data.each(function (row) {
+            const experience = row['Web Experience'];
+            experienceCounts[experience] = (experienceCounts[experience] || 0) + 1;
+        });
+
+        // Prepare data for charts
+        const labels = Object.keys(experienceCounts);
+        const counts = Object.values(experienceCounts);
+        const colors = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'];
+
+        // Render Pie Chart
+        const ctxPie = document.getElementById('voteChartPie').getContext('2d');
+        new Chart(ctxPie, {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: counts,
+                    backgroundColor: colors
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'top' },
+                    datalabels: {
+                        formatter: (value, ctx) => `${ctx.chart.data.labels[ctx.dataIndex]}: ${value}`,
+                        color: '#fff',
+                        font: { weight: 'bold', size: 14 }
+                    }
+                }
+            },
+            plugins: [ChartDataLabels]
+        });
+
+        // Render Bar Chart
+        const ctxBar = document.getElementById('voteChartBar').getContext('2d');
+        new Chart(ctxBar, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Web Experience Count',
+                    data: counts,
+                    backgroundColor: colors,
+                    borderColor: '#ccc',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: { title: { display: true, text: 'Web Experience' } },
+                    y: { beginAtZero: true, title: { display: true, text: 'Count' } }
+                },
+                plugins: {
+                    legend: { display: false },
+                    datalabels: {
+                        anchor: 'end',
+                        align: 'top',
+                        color: '#000',
+                        font: { weight: 'bold', size: 14 }
+                    }
+                }
+            },
+            plugins: [ChartDataLabels]
+        });
+    }
+});
+</script>
+</body>
+</html>
+
+

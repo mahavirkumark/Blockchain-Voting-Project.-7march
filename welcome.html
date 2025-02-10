@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+      <title>Blockchain Voting System</title>
+     <script type="module" src="admin.js"></script>
+    <style>
+        /* Basic Styling */
+        body {
+   
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(to right, blueviolet, skyblue, pink);
+
+    }
+ 
+ 
+    .kr{
+            
+            border: 5px;
+        }
+        .kp{
+            
+            border: 5px;
+        }
+        .kc{
+            
+            border: 5px;
+        }
+        .kd{
+            
+            border: 5px;
+        }
+        .kf{
+            
+            border: 5px;
+        }
+    
+
+        /* Main Content Area */
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .column {
+            flex: 1;
+            min-width: 300px;
+            max-width: 500px;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color:black;
+            color: white;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            margin-top: 90px;
+            font-size: 14px;
+            height:140px;
+        }
+
+        @keyframes cv{
+    from{font-size:0px;}
+    to{ font-size:25px}
+    }
+ .fa-brands{
+    margin-right: 3px;
+    
+    font-size: 25px;
+ 
+ }
+ .c{ padding: 5px;
+   
+    border: 2x solid transparent;
+
+ }
+ 
+.fa-hive{
+    font-size: 25px;
+    margin-top: 8px;
+}
+.l{
+    border:2px solid transparent;}
+
+    p{ line-height: 0;
+    font-size: 25px;
+        animation-name: cv;
+    animation-duration: 3s;
+    animation-delay: 0ms;
+    animation-iteration-count:1;
+    position: relative;
+    margin-top: 20px;
+    margin-right: 100px;
+ }
+ .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+  background-color:#121262 ;
+        position: relative;
+        height: 50px;
+        color:white;
+        
+      
+    }
+    
+    .nav-links {
+        list-style: none;
+        display: flex;
+        gap: 20px;
+      margin-right: 200px;
+      
+
+   
+    }
+    @keyframes c{
+        from{left:900px}
+        to{ left:0px}
+
+        }
+    
+    
+    .nav-links li {
+        display: inline;
+       
+    }
+    
+    .nav-item {
+        text-decoration: none;
+        color: #ffffff;
+        font-weight: bold;
+        padding: 5px 10px;
+
+        transition: background-color 0.3s;
+        font-size: larger;
+             animation-name: c;
+        animation-delay: 0ms;
+        animation-duration: 3s;
+        animation: iteration count 1px;;
+        position: relative;
+        border: 1px solid transparent;
+    }
+
+    ul li:hover a{
+   
+        align-items:center ;
+        border-color: white;
+}
+.logo{
+    font-size: 25px;
+  text-decoration: none;
+        color: #ffffff;
+        font-weight: bold;
+        display: flex;
+ }
+
+.jj{
+    font-size: 10px;
+}
+.fa-users{
+  margin-top: 7px;
+  padding: 2px;
+  font-size: 20px;
+}
+.logoc{
+      
+         
+      border: 5px;
+  }
+  .ld{
+
+      border: 5px;
+  }
+  .n{
+ 
+      border: 5px;
+  }
+  .kk{
+      
+      border: 5px;
+  }
+  .kr{
+      
+      border: 5px;
+  }
+  .kp{
+      
+      border: 5px;
+  }
+  .kc{
+      
+      border: 5px;
+  }
+  .kd{
+      
+      border: 5px;
+  }
+  .kf{
+      
+      border: 5px;
+  }
+  .kg{
+      
+      border: 5px;
+  }
+  .fa-facebook:hover{
+background-color: blue;
+      border:5px solid transparent;
+      border-radius: 50%;
+  }
+
+.fa-linkedin-in:hover{
+background-color: blue;
+      border:5px solid transparent;
+      border-radius: 50%;
+  }
+
+     .fa-threads:hover{
+      background-color: blue;
+      border:5px solid transparent;
+      border-radius: 50%;
+  }
+
+     .fa-instagram:hover{
+      background-color: blue;
+      border:5px solid transparent;
+      border-radius: 50%;
+  }
+  .fa-github:hover{
+      background-color: blue;
+      border:5px solid transparent;
+      border-radius: 50%;
+  }
+  .fa-whatsapp:hover{
+      background-color: blue;
+      border:5px solid transparent;
+      border-radius: 50%;
+  }
+  .fa-telegram:hover{
+      background-color: blue;
+      border:5px solid transparent;
+      border-radius: 50%;
+  }
+       .fa-facebook:hover{
+background-color: blue;
+      border:5px solid transparent;
+      border-radius: 50%;
+  }
+  .fa-discord:hover{
+background-color: blue;
+      border:5px solid transparent;
+      border-radius: 50%;
+  }
+  .fa-youtube:hover{
+background-color: blue;
+      border:5px solid transparent;
+      border-radius: 50%;
+  }
+  .fa-twitter:hover{
+  background-color: blue;
+            border:5px solid transparent;
+            border-radius: 50%;
+        }
+    </style>
+
+  
+<nav class="navbar">
+    <div class="logo">
+        <i class="fa-solid fa-users"></i>
+        <p> Blockchain Voting System</p>
+    </div>
+    
+    <ul class="nav-links">
+        <li><a href="index.html" class="nav-item" onclick="setActive(this)"><i class="fa-solid fa-house"></i> Home</a></li>
+        <li><a href="Report.html" class="nav-item" onclick="setActive(this)"><i class="fa-solid fa-thumbs-up"></i> Report</a></li>
+        <li><a href="verify.html" class="nav-item" onclick="setActive(this)"><i class="fa-solid fa-envelope"></i> Verify Email</a></li>
+        <li><a href="result.html" class="nav-item" onclick="setActive(this)"><i class="fa-solid fa-square-poll-vertical"></i> Result</a></li>
+        <li><a href="j.html" class="nav-item" onclick="setActive(this)"><i class="fa-solid fa-lock"></i> Admin Panel</a></li>
+    </ul>
+</nav>
+
+
+
+
+    <!-- Welcome Message -->
+    <div>
+        <h1>Welcome to the Admin Panel</h1>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- First Column -->
+        <div class="column">
+            <h2>Candidate Names</h2>
+            <table>
+                <tr><th>Candidate Name</th></tr>
+                <tr><td>Nitin Pandey</td></tr>
+                <tr><td>Veer Kale</td></tr>
+                <tr><td>Ajay Kamble</td></tr>
+                <tr><td>Mohit Khode</td></tr>
+                <tr><td>Yashvant More</td></tr>
+            </table>
+        </div>
+
+        <!-- Second Column -->
+        <div class="column">
+            <h2>Party Names</h2>
+            <table>
+                <tr><th>Party Name</th></tr>
+                <tr><td>Bhartiya Janata Party</td></tr>
+                <tr><td>Shivsena</td></tr>
+                <tr><td>Congress</td></tr>
+                <tr><td>Maharashtra Navnirman Sena</td></tr>
+                <tr><td>Rashtravadi Congress</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            &copy; 2024 Blockchain Voting System. All rights reserved.
+            <div class="social-media">
+               
+            </div>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+            </div>
+            <div class="c">
+                <h2>Contact Us</h2>
+                <div class="l">
+                <i class="fa-brands fa-facebook" id="logoc">
+    
+                </i>
+                <i class="fa-brands fa-linkedin-in" id="ld"></i>
+              
+                <i class="fa-brands fa-threads" id="n"></i>
+                <i class="fa-brands fa-instagram" id="kk"></i>
+                <i class="fa-brands fa-github"id="kr"></i>
+                <i class="fa-brands fa-whatsapp"id="kp"></i>
+                <i class="fa-brands fa-telegram"id="kc"></i>
+                <i class="fa-brands fa-discord"id="kd"></i>
+                <i class="fa-brands fa-youtube"id="kf"></i>
+                <i class="fa-brands fa-twitter"id="kg"></i>
+</div>
+        </div>
+
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        }
+
+        function searchFunction() {
+            const query = document.getElementById('search-input').value;
+            alert("Search feature not implemented yet. Query: " + query);
+        }
+ 
+
+    </script>
+<script>
+    document.getElementById("logoc").addEventListener("click", function () {
+      window.open("https://www.facebook.com/sagar.kulkarni.334491", "_blank");
+    });
+  </script>
+  
+  <script>
+    document.getElementById("ld").addEventListener("click", function () {
+      window.open("\https://www.linkedin.com/search/results/all/?fetchDeterministicClustersOnly=true&heroEntityKey=urn%3Ali%3Afsd_profile%3AACoAAFLj0DwB77JRQPNdIM8b-CtRpYE_XyuN41k&keywords=sagar%20kulkarni&origin=RICH_QUERY_SUGGESTION&position=0&searchId=3825e011-cca0-42bb-9406-1d5ad9b6e7de&sid=O9m&spellCorrectionEnabled=false/", "_blank");
+    });
+  </script>
+  
+  <script>
+    document.getElementById("n").addEventListener("click", function () {
+      window.open("https://www.threads.net/@sagarkulkarni884?xmt=AQGzKV122YP30qtPal3U9SIzB9kDtGw1rVvuAgIIhEhkRkk", "_blank");
+    });
+  </script>
+  
+  
+  <script>
+    document.getElementById("kk").addEventListener("click", function () {
+      window.open("https://www.instagram.com/sagarkulkarni884/", "_blank");
+    });
+  </script>
+  <script>
+    document.getElementById("kr").addEventListener("click", function () {
+      window.open("https://github.com/dashboard", "_blank");
+    });
+  </script>
+  
+  <script>
+    document.getElementById("kp").addEventListener("click", function () {
+      window.open("https://wa.me/919373629993?text=Hello%20I%20need%20help!", "_blank");
+    });
+  </script>
+  <script>
+    document.getElementById("kc").addEventListener("click", function () {
+      window.open("https://t.me/Mahavirkumark", "_blank");
+    });
+  </script>
+  <script>
+    document.getElementById("kd").addEventListener("click", function () {
+      window.open("https://discord.gg/NCdQzgJx", "_blank");
+    });
+  </script>
+  <script>
+    document.getElementById("kf").addEventListener("click", function () {
+      window.open("https://www.youtube.com/@SagarKulkarni-fw4bh", "_blank");
+    });
+  </script>
+  <script>
+    document.getElementById("kg").addEventListener("click", function () {
+      window.open("https://x.com/mahavirkumark1", "_blank");
+    });
+  </script>
+</body>
+</html>
